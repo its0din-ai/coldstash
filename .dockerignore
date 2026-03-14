@@ -1,0 +1,6 @@
+node_modules
+.next
+coldstash.db
+*.db-journal
+.git
+.env.local

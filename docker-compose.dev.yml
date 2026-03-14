@@ -1,0 +1,69 @@
+services:
+  coldstash:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      # Stop at deps stage — no need to build the full production bundle
+      target: deps
+
+    image: coldstash:dev
+    container_name: coldstash-dev
+
+    # Dev server command with Turbopack
+    command: ["node_modules/.bin/next", "dev", "--turbopack"]
+
+    restart: unless-stopped
+
+    ports:
+      - "3000:3000"
+
+    environment:
+      NODE_ENV: development
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me-in-production-min-32-chars!!}
+      DB_PATH: /app/data/coldstash.db
+      LOG_DIR: /app/logs
+
+    volumes:
+      # Source bind-mount — changes reflect immediately (hot reload)
+      - .:/app
+
+      # node_modules in a named volume so the container's compiled native
+      # binaries (better-sqlite3 .node file) don't get clobbered by the
+      # host's node_modules if OS/arch differs
+      - coldstash_nm_dev:/app/node_modules
+
+      # .next cache in a named volume — avoids permission issues between
+      # host and container writes
+      - coldstash_next_dev:/app/.next
+
+      # Persistent DB and logs across restarts
+      - coldstash_data_dev:/app/data
+      - coldstash_logs_dev:/app/logs
+
+    user: "0:0"
+
+    # No capability restrictions in dev — easier debugging
+    cap_drop: []
+
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout:  5s
+      retries:  3
+      start_period: 30s
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  coldstash_nm_dev:
+    driver: local
+  coldstash_next_dev:
+    driver: local
+  coldstash_data_dev:
+    driver: local
+  coldstash_logs_dev:
+    driver: local

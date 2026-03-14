@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer base {
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body { height: 100%; }
+
+  body {
+    @apply bg-bg text-ink font-mono antialiased;
+  }
+
+  ::-webkit-scrollbar       { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-border rounded; }
+
+  mark {
+    background: rgba(232,255,71,0.22);
+    color: #e8ff47;
+    border-radius: 2px;
+    padding: 0 1px;
+  }
+
+  input:-webkit-autofill,
+  input:-webkit-autofill:hover,
+  input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 30px #1c1f26 inset !important;
+    -webkit-text-fill-color: #e8eaf0 !important;
+  }
+}
+
+@layer components {
+  .input-base {
+    @apply w-full bg-surface2 border border-border rounded-lg px-3 py-2 text-sm text-ink
+           focus:outline-none focus:border-blue transition-colors placeholder:text-muted;
+  }
+
+  .btn-primary {
+    @apply px-4 py-2 bg-accent text-bg font-bold text-sm rounded-lg
+           hover:bg-accent/90 active:scale-[0.98] transition-all;
+  }
+
+  .btn-ghost {
+    @apply px-3 py-1.5 text-xs text-muted border border-border rounded-lg
+           hover:border-blue hover:text-blue transition-colors;
+  }
+
+  .btn-danger {
+    @apply px-3 py-1.5 text-xs text-danger border border-danger/20 rounded-lg
+           hover:bg-danger/10 transition-colors;
+  }
+
+  .card {
+    @apply bg-surface border border-border rounded-xl;
+  }
+
+  .nav-btn {
+    @apply px-3 py-1.5 rounded-md text-xs transition-colors;
+  }
+
+  .nav-btn-active {
+    @apply text-accent bg-surface2;
+  }
+
+  .nav-btn-inactive {
+    @apply text-muted hover:text-ink;
+  }
+
+  .section-label {
+    @apply text-[9px] font-display font-semibold tracking-[2px] text-muted uppercase;
+  }
+
+  .tab-btn {
+    @apply px-4 py-2 text-xs rounded-t-lg border-b-2 border-transparent
+           text-muted hover:text-ink transition-colors;
+  }
+
+  .tab-btn-active {
+    @apply text-accent border-accent;
+  }
+
+  .pg-btn {
+    @apply px-2.5 py-1 rounded border border-border bg-transparent text-muted text-[11px]
+           font-mono cursor-pointer transition-all
+           hover:border-blue hover:text-blue
+           disabled:opacity-30 disabled:cursor-default disabled:hover:border-border disabled:hover:text-muted;
+  }
+}
