@@ -1,0 +1,411 @@
+{
+  "disk_label": "COLD-STORAGE-01",
+  "disk_path": "D:\\",
+  "indexed_at": "2026-03-13 18:01",
+  "total_files": 42,
+  "total_size_gb": 12.7,
+  "archives_scanned": 3,
+  "archive_file_count": 8,
+  "files": [
+    {
+      "name": "project_proposal.docx",
+      "path": "Documents\\Work\\project_proposal.docx",
+      "size": 245760,
+      "modified": "2025-11-20",
+      "ext": ".docx",
+      "type": "document",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "budget_2025.xlsx",
+      "path": "Documents\\Work\\budget_2025.xlsx",
+      "size": 98304,
+      "modified": "2025-12-01",
+      "ext": ".xlsx",
+      "type": "document",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "meeting_notes.pdf",
+      "path": "Documents\\Work\\meeting_notes.pdf",
+      "size": 512000,
+      "modified": "2026-01-15",
+      "ext": ".pdf",
+      "type": "document",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "readme.txt",
+      "path": "Documents\\readme.txt",
+      "size": 1024,
+      "modified": "2025-08-03",
+      "ext": ".txt",
+      "type": "document",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "presentation.pptx",
+      "path": "Documents\\Work\\presentation.pptx",
+      "size": 3145728,
+      "modified": "2025-10-22",
+      "ext": ".pptx",
+      "type": "document",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "vacation_bali_2025.jpg",
+      "path": "Photos\\2025\\Bali\\vacation_bali_2025.jpg",
+      "size": 4718592,
+      "modified": "2025-07-14",
+      "ext": ".jpg",
+      "type": "photo",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "family_christmas.png",
+      "path": "Photos\\2025\\Christmas\\family_christmas.png",
+      "size": 8388608,
+      "modified": "2025-12-25",
+      "ext": ".png",
+      "type": "photo",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "product_mockup.psd",
+      "path": "Design\\product_mockup.psd",
+      "size": 52428800,
+      "modified": "2025-09-10",
+      "ext": ".psd",
+      "type": "photo",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "raw_shoot_001.raw",
+      "path": "Photos\\2025\\Shoot\\raw_shoot_001.raw",
+      "size": 26214400,
+      "modified": "2025-06-05",
+      "ext": ".raw",
+      "type": "photo",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "thumbnail.webp",
+      "path": "Design\\assets\\thumbnail.webp",
+      "size": 131072,
+      "modified": "2025-11-01",
+      "ext": ".webp",
+      "type": "photo",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "wedding_highlight.mp4",
+      "path": "Videos\\Events\\wedding_highlight.mp4",
+      "size": 3758096384,
+      "modified": "2025-05-20",
+      "ext": ".mp4",
+      "type": "video",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "vacation_vlog.mov",
+      "path": "Videos\\2025\\vacation_vlog.mov",
+      "size": 2147483648,
+      "modified": "2025-07-18",
+      "ext": ".mov",
+      "type": "video",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "screen_recording.mkv",
+      "path": "Videos\\Tutorials\\screen_recording.mkv",
+      "size": 1073741824,
+      "modified": "2025-10-08",
+      "ext": ".mkv",
+      "type": "video",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "short_clip.avi",
+      "path": "Videos\\Clips\\short_clip.avi",
+      "size": 524288000,
+      "modified": "2025-03-30",
+      "ext": ".avi",
+      "type": "video",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "drone_footage.dng",
+      "path": "Videos\\Drone\\drone_footage.dng",
+      "size": 157286400,
+      "modified": "2025-08-14",
+      "ext": ".dng",
+      "type": "video",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "album_2025.flac",
+      "path": "Music\\Albums\\album_2025.flac",
+      "size": 314572800,
+      "modified": "2025-04-01",
+      "ext": ".flac",
+      "type": "audio",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "podcast_episode_42.mp3",
+      "path": "Music\\Podcasts\\podcast_episode_42.mp3",
+      "size": 52428800,
+      "modified": "2025-11-11",
+      "ext": ".mp3",
+      "type": "audio",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "ambient_loop.wav",
+      "path": "Music\\SFX\\ambient_loop.wav",
+      "size": 20971520,
+      "modified": "2025-06-22",
+      "ext": ".wav",
+      "type": "audio",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "voice_memo.m4a",
+      "path": "Audio\\Memos\\voice_memo.m4a",
+      "size": 2097152,
+      "modified": "2026-02-03",
+      "ext": ".m4a",
+      "type": "audio",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "app_backup.zip",
+      "path": "Backups\\app_backup.zip",
+      "size": 734003200,
+      "modified": "2026-01-01",
+      "ext": ".zip",
+      "type": "archive",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "old_projects.7z",
+      "path": "Backups\\old_projects.7z",
+      "size": 2147483648,
+      "modified": "2025-12-31",
+      "ext": ".7z",
+      "type": "archive",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "photos_2024.rar",
+      "path": "Backups\\photos_2024.rar",
+      "size": 1610612736,
+      "modified": "2025-01-05",
+      "ext": ".rar",
+      "type": "archive",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "server_logs.tar.gz",
+      "path": "Backups\\Logs\\server_logs.tar.gz",
+      "size": 10485760,
+      "modified": "2026-03-01",
+      "ext": ".gz",
+      "type": "archive",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "index.ts",
+      "path": "Projects\\coldstash\\src\\index.ts",
+      "size": 8192,
+      "modified": "2026-03-10",
+      "ext": ".ts",
+      "type": "code",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "main.py",
+      "path": "Projects\\scripts\\main.py",
+      "size": 4096,
+      "modified": "2026-02-14",
+      "ext": ".py",
+      "type": "code",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "styles.css",
+      "path": "Projects\\coldstash\\src\\styles.css",
+      "size": 16384,
+      "modified": "2026-03-11",
+      "ext": ".css",
+      "type": "code",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "docker-compose.yml",
+      "path": "Projects\\coldstash\\docker-compose.yml",
+      "size": 2048,
+      "modified": "2026-03-13",
+      "ext": ".yml",
+      "type": "code",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "setup.sh",
+      "path": "Projects\\scripts\\setup.sh",
+      "size": 3072,
+      "modified": "2025-12-20",
+      "ext": ".sh",
+      "type": "code",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "20250510.reg",
+      "path": "20250510.reg",
+      "size": 339690654,
+      "modified": "2025-05-10",
+      "ext": ".reg",
+      "type": "other",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "disk_image.iso",
+      "path": "ISOs\\disk_image.iso",
+      "size": 4831838208,
+      "modified": "2025-02-28",
+      "ext": ".iso",
+      "type": "other",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "firmware.bin",
+      "path": "Firmware\\firmware.bin",
+      "size": 16777216,
+      "modified": "2025-07-01",
+      "ext": ".bin",
+      "type": "other",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "config_backup.bak",
+      "path": "Config\\config_backup.bak",
+      "size": 65536,
+      "modified": "2026-01-20",
+      "ext": ".bak",
+      "type": "other",
+      "inside_archive": false,
+      "archive_type": null
+    },
+    {
+      "name": "resume_2019.docx",
+      "path": "old_projects.7z::Documents\\resume_2019.docx",
+      "size": 51200,
+      "modified": "2019-08-15",
+      "ext": ".docx",
+      "type": "document",
+      "inside_archive": true,
+      "archive_type": "7z"
+    },
+    {
+      "name": "invoice_march.pdf",
+      "path": "old_projects.7z::Finance\\invoice_march.pdf",
+      "size": 204800,
+      "modified": "2020-03-31",
+      "ext": ".pdf",
+      "type": "document",
+      "inside_archive": true,
+      "archive_type": "7z"
+    },
+    {
+      "name": "birthday_2022.jpg",
+      "path": "photos_2024.rar::Events\\birthday_2022.jpg",
+      "size": 3145728,
+      "modified": "2022-09-12",
+      "ext": ".jpg",
+      "type": "photo",
+      "inside_archive": true,
+      "archive_type": "rar"
+    },
+    {
+      "name": "graduation.jpg",
+      "path": "photos_2024.rar::Events\\graduation.jpg",
+      "size": 5242880,
+      "modified": "2023-06-01",
+      "ext": ".jpg",
+      "type": "photo",
+      "inside_archive": true,
+      "archive_type": "rar"
+    },
+    {
+      "name": "demo_reel.mp4",
+      "path": "app_backup.zip::Portfolio\\demo_reel.mp4",
+      "size": 209715200,
+      "modified": "2024-11-05",
+      "ext": ".mp4",
+      "type": "video",
+      "inside_archive": true,
+      "archive_type": "zip"
+    },
+    {
+      "name": "db_seed.sql",
+      "path": "app_backup.zip::Database\\db_seed.sql",
+      "size": 32768,
+      "modified": "2024-10-18",
+      "ext": ".sql",
+      "type": "code",
+      "inside_archive": true,
+      "archive_type": "zip"
+    },
+    {
+      "name": "theme_song.mp3",
+      "path": "app_backup.zip::Assets\\theme_song.mp3",
+      "size": 8388608,
+      "modified": "2024-09-30",
+      "ext": ".mp3",
+      "type": "audio",
+      "inside_archive": true,
+      "archive_type": "zip"
+    },
+    {
+      "name": "old_config.env",
+      "path": "app_backup.zip::Config\\old_config.env",
+      "size": 512,
+      "modified": "2024-08-01",
+      "ext": ".env",
+      "type": "other",
+      "inside_archive": true,
+      "archive_type": "zip"
+    }
+  ]
+}

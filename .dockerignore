@@ -4,3 +4,4 @@ coldstash.db
 *.db-journal
 .git
 .env.local
+docs
