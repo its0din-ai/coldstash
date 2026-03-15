@@ -139,7 +139,9 @@ def now_utc_str() -> str:
 # zero-width characters, homoglyphs, illegal OS chars, and absurd lengths.
 # We sanitise everything before it reaches the JSON output.
 
-_WIN_ILLEGAL  = frozenset('<>:"/\\|?*')
+_WIN_ILLEGAL  = frozenset('<>:"|?*')          # illegal in filename components
+_WIN_ILLEGAL_PATH = frozenset('<>:"|?*')      # same — backslash and forward-slash are
+                                               # valid path separators, never stripped
 _CTRL_RE      = re.compile(r"[\x00-\x1f\x7f]")
 _UNICODE_BAD  = re.compile(
     r"[\u200b-\u200f\u202a-\u202e\u2060-\u2064\u206a-\u206f\ufeff\ufff0-\uffff]"
@@ -155,17 +157,9 @@ MAX_LABEL_LEN = 64
 
 def sanitise_str(s: object, max_len: int = MAX_NAME_LEN) -> str:
     """
-    Sanitise any untrusted string.
-    1. Force to str
-    2. NFC Unicode normalisation (resolves homoglyphs / combining chars)
-    3. Strip ANSI escape sequences
-    4. Strip Unicode direction overrides / zero-width chars
-    5. Strip control characters (null bytes, CR, LF, TAB, etc.)
-    6. Strip Windows-illegal filename chars
-    7. Strip path traversal sequences
-    8. Strip leading/trailing whitespace and dots
-    9. Truncate to max_len
-    10. Placeholder if result is empty
+    Sanitise an untrusted filename (single component).
+    Strips backslash and forward-slash — illegal in filename components.
+    For paths containing separators, use sanitise_path() instead.
     """
     if s is None:
         return "_empty_"
@@ -182,40 +176,80 @@ def sanitise_str(s: object, max_len: int = MAX_NAME_LEN) -> str:
     s = _ANSI_STRIP.sub("", s)
     s = _UNICODE_BAD.sub("", s)
     s = _CTRL_RE.sub("", s)
-    s = "".join(c for c in s if c not in _WIN_ILLEGAL)
+    # Strip ALL Windows-illegal chars including / and \ for filename components
+    s = "".join(c for c in s if c not in frozenset('<>:"/\\|?*'))
     s = _TRAVERSAL_RE.sub("", s)
     s = s.strip().strip(".")
     s = s[:max_len]
     return s if s else "_empty_"
 
 
+def sanitise_path(path: str) -> str:
+    """
+    Sanitise a filesystem path. Preserves backslash and / as path separators.
+    Only strips chars that are illegal even inside full paths.
+    """
+    if not path:
+        return "_empty_"
+    try:
+        s = str(path)
+    except Exception:
+        return "_invalid_"
+
+    try:
+        s = unicodedata.normalize("NFC", s)
+    except Exception:
+        pass
+
+    s = _ANSI_STRIP.sub("", s)
+    s = _UNICODE_BAD.sub("", s)
+    s = _CTRL_RE.sub("", s)
+    # Keep \ and / — they are path separators. Strip everything else illegal.
+    s = "".join(c for c in s if c not in _WIN_ILLEGAL_PATH)
+    # Remove traversal sequences but keep normal separators
+    s = _TRAVERSAL_RE.sub("", s)
+    s = s.strip()
+    s = s[:MAX_PATH_LEN]
+    return s if s else "_empty_"
+
+
 def sanitise_label(label: str) -> str:
-    label = sanitise_str(label, MAX_LABEL_LEN)
+    """Disk labels must be filesystem-safe identifiers."""
+    label = sanitise_str(str(label), MAX_LABEL_LEN)
     label = _LABEL_RE.sub("_", label).strip("_. ")
     return label[:MAX_LABEL_LEN] if label else "DISK"
 
 
 def sanitise_ext(ext: str) -> str:
-    ext = sanitise_str(ext, MAX_EXT_LEN).lower()
+    """
+    Coerce a file extension to a safe, lowercase dotted form.
+    Returns '' for anything that doesn't look like a real extension.
+    Dotfiles (.ssh, .gitconfig) pass through up to MAX_NAME_LEN.
+    Normal extensions must be .[a-z0-9]{1,127} and under MAX_EXT_LEN.
+    """
     if not ext:
         return ""
-    if not ext.startswith("."):
-        ext = "." + ext
-    # Only allow dot + alphanumeric (1–16 chars)
-    if not re.match(r"^\.[a-z0-9]{1,16}$", ext):
+    raw = sanitise_str(str(ext), MAX_NAME_LEN).lower()
+    if not raw:
         return ""
-    return ext
+    s = raw if raw.startswith(".") else "." + raw
 
+    # Dotfile: no second dot after the leading dot (.ssh, .env, .gitconfig)
+    # The entire filename is the extension — allow up to MAX_NAME_LEN.
+    if "." not in s[1:]:
+        return s[:MAX_NAME_LEN]
 
-def sanitise_path(path: str) -> str:
-    path = sanitise_str(path, MAX_PATH_LEN)
-    path = _TRAVERSAL_RE.sub("", path)
-    return path[:MAX_PATH_LEN]
+    # Normal extension: short + alphanumeric only
+    if len(s) > MAX_EXT_LEN:
+        return ""
+    if not re.match(r"^\.[a-z0-9]{1,127}$", s):
+        return ""
+    return s
 
 
 def sanitise_size(size: object) -> int:
     try:
-        return max(0, int(size))
+        return max(0, int(size))  # type: ignore
     except Exception:
         return 0
 
@@ -556,6 +590,7 @@ def scan_disk(
     index_dir:     Path,
     scan_archives: bool,
     throttle:      str,
+    compress:      bool = True,
 ) -> None:
 
     profile = THROTTLE_PROFILES.get(throttle, THROTTLE_PROFILES[DEFAULT_THROTTLE])
@@ -573,6 +608,8 @@ def scan_disk(
     print(f"  {dim('Output   :')} {dim(str(index_dir / (label + '.json')))}")
     arc_str = green("ON  (.zip .7z .rar .tar …)") if scan_archives else dim("OFF")
     print(f"  {dim('Archives :')} {arc_str}")
+    cmp_str = green("ON  (gzip level 6 → .json.gz)") if compress else dim("OFF  (.json)")
+    print(f"  {dim('Compress :')} {cmp_str}")
     print(
         f"  {dim('Throttle :')} {cyan(throttle)}  "
         f"{dim(f'yield/{yield_every} files  sleep/{yield_sleep*1000:.0f}ms  '
@@ -679,18 +716,37 @@ def scan_disk(
     }
 
     index_dir.mkdir(parents=True, exist_ok=True)
-    out_path = index_dir / f"{san_label}.json"
+
+    if compress:
+        out_path = index_dir / f"{san_label}.json.gz"
+        tmp_path = out_path.with_suffix(".gz.tmp")
+    else:
+        out_path = index_dir / f"{san_label}.json"
+        tmp_path = out_path.with_suffix(".json.tmp")
 
     sys.stdout.write(f"  {dim('Writing index…')} ")
     sys.stdout.flush()
 
-    # Atomic write: write to .tmp then rename — prevents corrupt JSON on kill
-    tmp_path = out_path.with_suffix(".json.tmp")
+    # Atomic write: .tmp → rename — prevents corrupt output if killed mid-write
     try:
-        with open(tmp_path, "w", encoding="utf-8") as f:
-            json.dump(index, f, ensure_ascii=False, separators=(",", ":"))
-        tmp_path.replace(out_path)
-        print(green("✓"))
+        if compress:
+            import gzip
+            raw = json.dumps(index, ensure_ascii=False, separators=(",", ":")).encode("utf-8")
+            with gzip.open(tmp_path, "wb", compresslevel=6) as f:
+                f.write(raw)
+            compressed_size = tmp_path.stat().st_size
+            ratio = (1 - compressed_size / len(raw)) * 100 if len(raw) > 0 else 0
+            tmp_path.replace(out_path)
+            print(
+                green("✓") + "  " +
+                dim(f"{_fmt_size(len(raw))} → {_fmt_size(compressed_size)} "
+                    f"({ratio:.0f}% smaller)")
+            )
+        else:
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(index, f, ensure_ascii=False, separators=(",", ":"))
+            tmp_path.replace(out_path)
+            print(green("✓"))
     except Exception as exc:
         print(red(f"failed: {sanitise_str(str(exc), 120)}"), file=sys.stderr)
         try:
@@ -771,6 +827,10 @@ def main() -> None:
         ),
     )
     parser.add_argument(
+        "--no-compress", action="store_true",
+        help="Write plain .json instead of .json.gz (default: compressed)",
+    )
+    parser.add_argument(
         "--no-color", action="store_true",
         help="Disable colour output (also via NO_COLOR env var)",
     )
@@ -830,6 +890,7 @@ def main() -> None:
         index_dir     = index_dir,
         scan_archives = not args.no_archives,
         throttle      = args.throttle,
+        compress      = not args.no_compress,
     )
 
 
